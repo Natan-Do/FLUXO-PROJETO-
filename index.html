@@ -237,6 +237,23 @@
   }
   @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
 
+  /* SOCIAL PROOF */
+  .social-proof {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--card); border: 0.5px solid #2A2A2A; border-radius: 40px;
+    padding: 8px 22px 8px 8px; margin-top: 2.5rem;
+    opacity: 0; animation: fadeUp 1s var(--ease) 0.78s forwards;
+  }
+  .avatars { display: flex; }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--lime); color: var(--dark);
+    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+    border: 2px solid var(--dark); margin-left: -8px;
+  }
+  .avatar:first-child { margin-left: 0; }
+  .social-proof span { font-size: 13px; color: var(--off); }
+  .social-proof b { color: var(--lime); }
+
   /* SECTION */
   section { padding: 7rem 2rem; max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
   .section-label {
@@ -276,6 +293,43 @@
   .problem-card:hover .problem-icon { transform: scale(1.1) rotate(-6deg); border-color: var(--lime); }
   .problem-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 0.4rem; }
   .problem-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* SPLIT (texto + visual) */
+  .split { display: grid; grid-template-columns: 1.1fr 1fr; gap: 3rem; align-items: center; }
+  .split.reverse .split-visual { order: -1; }
+  .split-text p.section-sub { margin-bottom: 1.5rem; }
+  .split-list { display: flex; flex-direction: column; gap: 12px; margin-top: 1.5rem; }
+  .split-list div {
+    display: flex; gap: 12px; font-size: 13.5px; color: #ccc; align-items: flex-start;
+  }
+  .split-list div::before {
+    content: ''; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--lime); margin-top: 5px; flex-shrink: 0;
+    box-shadow: 0 0 0 3px rgba(182,255,26,0.2);
+  }
+  .split-visual {
+    background: var(--card); border: 0.5px solid #2A2A2A; border-radius: 16px;
+    aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center;
+    color: #3a3a3a; font-size: 13px; overflow: hidden; position: relative;
+    transition: transform 0.4s var(--ease), border-color 0.4s var(--ease);
+  }
+  .split-visual:hover { transform: translateY(-4px); border-color: rgba(182,255,26,0.3); }
+  .split-visual::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(182,255,26,0.08), transparent 60%);
+  }
+  @media (max-width: 760px) {
+    .split, .split.reverse { grid-template-columns: 1fr; }
+    .split.reverse .split-visual { order: 0; }
+  }
+
+  /* TIME TAG */
+  .service-time {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; letter-spacing: 0.5px; color: var(--lime);
+    margin-top: 0.9rem; position: relative; z-index: 1;
+  }
+  .service-time::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--lime); }
 
   /* SOLUTION */
   .solution { border-top: 0.5px solid var(--border); }
@@ -509,58 +563,68 @@
     <a class="btn-primary" href="https://wa.me/5511945918400?text=Oi%2C%20quero%20conhecer%20os%20pacotes%20da%20Fluxo!" target="_blank">Quero conhecer os pacotes</a>
     <a class="btn-outline" href="#pacotes">Ver preços</a>
   </div>
+  <div class="social-proof">
+    <div class="avatars">
+      <div class="avatar">JM</div>
+      <div class="avatar">RC</div>
+      <div class="avatar">AS</div>
+    </div>
+    <span><b>+40 comércios</b> já usam a Fluxo</span>
+  </div>
   <div class="hero-scroll">Role para baixo</div>
 </div>
 
 <!-- PROBLEMA -->
 <section class="problems reveal" id="problema">
-  <div class="section-label">O problema</div>
-  <h2 class="section-title">Por que seu comércio<br>está perdendo dinheiro?</h2>
-  <p class="section-sub">A maioria dos pequenos comércios lida com os mesmos 3 problemas todo dia.</p>
-  <div class="problems-grid reveal-stagger">
-    <div class="problem-card">
-      <div class="problem-icon"><svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="3"/><line x1="10" y1="18" x2="14" y2="18"/></svg></div>
-      <h3>Instagram parado</h3>
-      <p>Sem posts consistentes, seu cliente esquece que você existe — e compra do concorrente.</p>
+  <div class="split">
+    <div class="split-text">
+      <div class="section-label">O problema</div>
+      <h2 class="section-title">Por que seu comércio<br>está perdendo dinheiro?</h2>
+      <p class="section-sub">A maioria dos pequenos comércios lida com os mesmos 3 problemas todo dia.</p>
+      <div class="split-list">
+        <div>Instagram parado — seu cliente esquece que você existe e compra do concorrente</div>
+        <div>Caixa descontrolado — você não sabe quanto entrou, saiu e sobrou no mês</div>
+        <div>Estoque no escuro — vende o que não tem ou compra o que já tem</div>
+      </div>
     </div>
-    <div class="problem-card">
-      <div class="problem-icon"><svg viewBox="0 0 24 24"><path d="M3 12c2-4 6-6 9-6s7 2 9 6c-2 4-6 6-9 6s-7-2-9-6z"/><circle cx="12" cy="12" r="2.4"/></svg></div>
-      <h3>Caixa descontrolado</h3>
-      <p>Você não sabe exatamente quanto entrou, quanto saiu e quanto sobrou no mês.</p>
-    </div>
-    <div class="problem-card">
-      <div class="problem-icon"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg></div>
-      <h3>Estoque no escuro</h3>
-      <p>Você vende o que não tem ou compra o que já tem. Dinheiro jogado fora toda semana.</p>
-    </div>
+    <div class="split-visual">print do Instagram parado</div>
   </div>
 </section>
 
 <!-- SOLUÇÃO -->
 <section class="solution reveal" id="servicos">
-  <div class="section-label">A solução</div>
-  <h2 class="section-title">Um pacote completo.<br>Sem complicação.</h2>
-  <p class="section-sub">A Fluxo resolve os três problemas ao mesmo tempo — com ajuda de IA e suporte direto no WhatsApp.</p>
+  <div class="split reverse" style="margin-bottom: 4rem;">
+    <div class="split-text">
+      <div class="section-label">A solução</div>
+      <h2 class="section-title">Um pacote completo.<br>Sem complicação.</h2>
+      <p class="section-sub">A Fluxo resolve os três problemas ao mesmo tempo — com ajuda de IA e suporte direto no WhatsApp.</p>
+    </div>
+    <div class="split-visual">print do dashboard financeiro</div>
+  </div>
   <div class="services-grid reveal-stagger">
     <div class="service-card">
       <div class="service-num">01 — Instagram</div>
       <h3>Marketing profissional</h3>
       <p>Posts toda semana no seu perfil, carrosseis com design bonito, legendas e hashtags incluídas. Você não precisa fazer nada.</p>
+      <div class="service-time">Ativo em 3 dias</div>
     </div>
     <div class="service-card">
       <div class="service-num">02 — Financeiro</div>
       <h3>Controle de caixa</h3>
       <p>Veja em tempo real o que entrou, o que saiu e o que sobrou. Simples de usar, sem planilha bagunçada.</p>
+      <div class="service-time">Ativo em 1 dia</div>
     </div>
     <div class="service-card">
       <div class="service-num">03 — Estoque</div>
       <h3>Controle de inventário</h3>
       <p>Saiba exatamente o que tem em estoque. Nunca mais vender o que não tem ou perder venda por falta de produto.</p>
+      <div class="service-time">Ativo em 2 dias</div>
     </div>
     <div class="service-card">
       <div class="service-num">04 — IA</div>
       <h3>Tudo com inteligência artificial</h3>
       <p>Usamos IA pra gerar conteúdo, analisar seus dados e sugerir melhorias — você foca no que sabe fazer.</p>
+      <div class="service-time">Já incluso</div>
     </div>
   </div>
 </section>
