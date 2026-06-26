@@ -294,9 +294,9 @@
   .problem-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 0.4rem; }
   .problem-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
-  /* SPLIT (texto + visual) */
-  .split { display: grid; grid-template-columns: 1.1fr 1fr; gap: 3rem; align-items: center; }
-  .split.reverse .split-visual { order: -1; }
+  /* SPLIT (texto) */
+  .split { display: block; }
+  .split.no-visual { max-width: 640px; }
   .split-text p.section-sub { margin-bottom: 1.5rem; }
   .split-list { display: flex; flex-direction: column; gap: 12px; margin-top: 1.5rem; }
   .split-list div {
@@ -307,22 +307,6 @@
     background: var(--lime); margin-top: 5px; flex-shrink: 0;
     box-shadow: 0 0 0 3px rgba(182,255,26,0.2);
   }
-  .split-visual {
-    background: var(--card); border: 0.5px solid #2A2A2A; border-radius: 16px;
-    aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center;
-    color: #3a3a3a; font-size: 13px; overflow: hidden; position: relative;
-    transition: transform 0.4s var(--ease), border-color 0.4s var(--ease);
-  }
-  .split-visual:hover { transform: translateY(-4px); border-color: rgba(182,255,26,0.3); }
-  .split-visual::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(circle at 30% 20%, rgba(182,255,26,0.08), transparent 60%);
-  }
-  @media (max-width: 760px) {
-    .split, .split.reverse { grid-template-columns: 1fr; }
-    .split.reverse .split-visual { order: 0; }
-  }
-
   /* TIME TAG */
   .service-time {
     display: inline-flex; align-items: center; gap: 6px;
@@ -576,7 +560,7 @@
 
 <!-- PROBLEMA -->
 <section class="problems reveal" id="problema">
-  <div class="split">
+  <div class="split no-visual">
     <div class="split-text">
       <div class="section-label">O problema</div>
       <h2 class="section-title">Por que seu comércio<br>está perdendo dinheiro?</h2>
@@ -587,19 +571,17 @@
         <div>Estoque no escuro — vende o que não tem ou compra o que já tem</div>
       </div>
     </div>
-    <div class="split-visual">print do Instagram parado</div>
   </div>
 </section>
 
 <!-- SOLUÇÃO -->
 <section class="solution reveal" id="servicos">
-  <div class="split reverse" style="margin-bottom: 4rem;">
+  <div class="split no-visual" style="margin-bottom: 1rem;">
     <div class="split-text">
       <div class="section-label">A solução</div>
       <h2 class="section-title">Um pacote completo.<br>Sem complicação.</h2>
       <p class="section-sub">A Fluxo resolve os três problemas ao mesmo tempo — com ajuda de IA e suporte direto no WhatsApp.</p>
     </div>
-    <div class="split-visual">print do dashboard financeiro</div>
   </div>
   <div class="services-grid reveal-stagger">
     <div class="service-card">
