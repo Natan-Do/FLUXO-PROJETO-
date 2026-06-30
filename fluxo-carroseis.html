@@ -4,386 +4,321 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fluxo — Carrosseis Instagram</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --lime: #B6FF1A;
-    --amber: #F0A830;
-    --dark: #0D0D0D;
-    --card: #141414;
-    --off: #F5F0E8;
-    --gray: #888888;
-  }
+:root {
+  --lime:    #B6FF1A;
+  --amber:   #F0A830;
+  --ink:     #0D0D0D;
+  --surface: #131313;
+  --cream:   #F0EAD8;
+  --muted:   #5C5C5C;
+  --border:  rgba(182,255,26,0.12);
+  --ease:    cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-  body {
-    background: #111;
-    font-family: 'Space Grotesk', sans-serif;
-    color: var(--off);
-    padding: 48px 24px 80px;
-  }
+body {
+  background: #111;
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--cream);
+  padding: 48px 24px 80px;
+}
 
-  h1.page-title {
-    text-align: center;
-    font-size: 13px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--lime);
-    margin-bottom: 4px;
-  }
-  p.page-sub {
-    text-align: center;
-    font-size: 13px;
-    color: var(--gray);
-    margin-bottom: 56px;
-  }
+/* PAGE HEADER */
+.page-header { text-align: center; margin-bottom: 56px; }
+.page-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 6px;
+}
+.page-eyebrow::before {
+  content: '';
+  display: inline-block; width: 20px; height: 1px; background: var(--lime);
+}
+.page-eyebrow::after {
+  content: '';
+  display: inline-block; width: 20px; height: 1px; background: var(--lime);
+}
+.page-sub { font-size: 13px; color: var(--muted); }
 
-  /* ── CAROUSEL WRAPPER ── */
-  .carousel-block {
-    max-width: 560px;
-    margin: 0 auto 72px;
-  }
+/* CAROUSEL WRAPPER */
+.carousel-block { max-width: 560px; margin: 0 auto 72px; }
+.carousel-label { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--lime); margin-bottom: 6px; }
+.carousel-title { font-size: 18px; font-weight: 700; color: var(--cream); margin-bottom: 20px; letter-spacing: -0.4px; }
 
-  .carousel-label {
-    font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 8px;
-  }
-  .carousel-title {
-    font-size: 20px; font-weight: 700; color: var(--off);
-    margin-bottom: 20px; letter-spacing: -0.5px;
-  }
+/* SLIDE VIEWER */
+.slide-viewer {
+  position: relative; width: 100%; aspect-ratio: 1 / 1;
+  border-radius: 18px; overflow: hidden;
+  box-shadow: 0 28px 70px rgba(0,0,0,0.65);
+}
+.slides {
+  display: flex; width: 100%; height: 100%;
+  transition: transform 0.5s var(--ease);
+}
 
-  /* ── SLIDE VIEWER ── */
-  .slide-viewer {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
-  }
+/* SLIDE BASE */
+.slide {
+  flex-shrink: 0; width: 100%; height: 100%;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 36px;
+  background: var(--ink);
+}
+.slide-inner { position: relative; z-index: 2; }
 
-  .slides {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
-  }
+/* BRAND WAVE — elemento de fundo específico da Fluxo, substitui orbs genéricos */
+.slide-wave {
+  position: absolute; pointer-events: none; z-index: 0;
+}
 
-  /* ── SLIDE BASE ── */
-  .slide {
-    flex-shrink: 0;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 36px;
-    background: var(--dark);
-  }
+/* LOGO BAR */
+.logo-bar {
+  position: absolute; top: 26px; left: 36px; right: 36px; z-index: 3;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo-bar-mark { display: flex; align-items: center; gap: 8px; }
+.logo-bar-sq {
+  width: 28px; height: 28px; border-radius: 6px;
+  border: 1.5px solid var(--lime);
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-bar-sq svg { width: 17px; height: 11px; }
+.logo-bar-name { font-size: 13px; font-weight: 700; letter-spacing: 2px; color: var(--lime); }
+.logo-bar-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--muted); letter-spacing: 1px;
+}
 
-  /* noise texture */
-  .slide::before {
-    content: '';
-    position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    opacity: 0.04; mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
+/* NAV */
+.slide-nav {
+  display: flex; align-items: center; justify-content: space-between; margin-top: 16px;
+}
+.slide-dots { display: flex; gap: 6px; }
+.dot {
+  width: 6px; height: 6px; border-radius: 3px;
+  background: rgba(255,255,255,0.18); cursor: pointer;
+  transition: width 0.3s var(--ease), background 0.3s;
+}
+.dot.active { width: 22px; background: var(--lime); }
+.nav-btns { display: flex; gap: 8px; }
+.nav-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: var(--cream); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  font-size: 15px;
+}
+.nav-btn:hover { border-color: var(--lime); background: rgba(182,255,26,0.08); transform: scale(1.08); }
+.slide-counter {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--muted); letter-spacing: 1px;
+}
 
-  .slide-inner { position: relative; z-index: 2; }
+/* PRINT HINT */
+.print-hint { text-align: center; font-size: 12px; color: var(--muted); margin-top: 10px; }
+.print-hint span { color: var(--lime); }
 
-  /* orb background */
-  .orb {
-    position: absolute; border-radius: 50%;
-    filter: blur(80px); pointer-events: none;
-  }
+/* ──────────────────────────────────────
+   COVER SLIDES — estrutura comum
+─────────────────────────────────────── */
+.slide-cover { justify-content: flex-end; }
+.cover-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid rgba(182,255,26,0.28); border-radius: 20px;
+  padding: 5px 13px; font-size: 10px; color: var(--lime);
+  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 18px;
+}
+.cover-tag::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--lime); }
+.cover-h {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  font-style: italic; font-weight: 400; line-height: 1.12; margin-bottom: 14px;
+  color: var(--cream);
+}
+.cover-h strong { font-style: normal; color: var(--lime); font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+.cover-p { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 340px; margin-bottom: 24px; }
+.swipe-hint {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--muted); letter-spacing: 1px;
+}
+.swipe-hint::after { content: '→'; color: var(--lime); font-size: 15px; }
 
-  /* ── NAV ── */
-  .slide-nav {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-top: 16px;
-  }
+/* ──────────────────────────────────────
+   CARROSSEL 1 — Problemas
+─────────────────────────────────────── */
+.prob-slide { justify-content: center; align-items: flex-start; }
+.prob-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 80px; font-weight: 500; letter-spacing: -4px;
+  line-height: 0.9; margin-bottom: 4px;
+  background: linear-gradient(180deg, var(--lime) 0%, rgba(182,255,26,0.1) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.prob-num.amber {
+  background: linear-gradient(180deg, var(--amber) 0%, rgba(240,168,48,0.08) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.prob-tag {
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--lime);
+  margin-bottom: 14px; display: block;
+}
+.prob-tag.amber { color: var(--amber); }
+.prob-title {
+  font-size: clamp(1.3rem, 4.5vw, 1.85rem); font-weight: 700;
+  line-height: 1.2; margin-bottom: 12px; letter-spacing: -0.5px; color: var(--cream);
+}
+.prob-desc { font-size: 13px; color: var(--muted); line-height: 1.65; max-width: 380px; }
+.prob-divider { width: 32px; height: 2px; background: var(--lime); border-radius: 2px; margin: 16px 0; }
+.prob-divider.amber { background: var(--amber); }
+.prob-insight {
+  display: flex; align-items: flex-start; gap: 0;
+  font-size: 12px; color: rgba(240,234,216,0.55);
+  background: rgba(182,255,26,0.05); border-left: 2px solid var(--lime);
+  border-radius: 0 8px 8px 0; padding: 10px 12px; margin-top: 16px; line-height: 1.5;
+}
+.prob-insight.amber { background: rgba(240,168,48,0.05); border-left-color: var(--amber); }
 
-  .slide-dots {
-    display: flex; gap: 6px;
-  }
-  .dot {
-    width: 6px; height: 6px; border-radius: 3px;
-    background: rgba(255,255,255,0.2);
-    cursor: pointer;
-    transition: width 0.3s, background 0.3s;
-  }
-  .dot.active {
-    width: 22px;
-    background: var(--lime);
-  }
+/* ──────────────────────────────────────
+   CARROSSEL 2 — Solução
+─────────────────────────────────────── */
+.sol-cover-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(182,255,26,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(182,255,26,0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+.pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.pill {
+  padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600;
+  background: rgba(182,255,26,0.08); border: 1px solid rgba(182,255,26,0.22); color: var(--lime);
+}
+.pill.amber { background: rgba(240,168,48,0.08); border-color: rgba(240,168,48,0.22); color: var(--amber); }
+.pill.white { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: var(--cream); }
 
-  .nav-btns {
-    display: flex; gap: 8px;
-  }
-  .nav-btn {
-    width: 36px; height: 36px; border-radius: 50%;
-    border: 1.5px solid rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.05);
-    color: var(--off); cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: border-color 0.2s, background 0.2s, transform 0.2s;
-    font-size: 16px;
-  }
-  .nav-btn:hover {
-    border-color: var(--lime);
-    background: rgba(182,255,26,0.1);
-    transform: scale(1.08);
-  }
+.sol-slide { justify-content: flex-start; padding-top: 36px; }
+.sol-num-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1.5px solid var(--lime); color: var(--lime);
+  font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 500;
+  margin-bottom: 18px;
+}
+.sol-num-badge.amber { border-color: var(--amber); color: var(--amber); }
+.sol-title {
+  font-size: clamp(1.4rem, 5vw, 1.9rem); font-weight: 700;
+  letter-spacing: -0.5px; line-height: 1.15; margin-bottom: 10px; color: var(--cream);
+}
+.sol-title em { font-style: normal; color: var(--lime); }
+.sol-title em.amber { color: var(--amber); }
+.sol-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 18px; }
+.sol-time {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--lime); letter-spacing: 0.5px; margin-bottom: 18px;
+}
+.sol-time::before { content:'→ '; }
+.sol-time.amber { color: var(--amber); }
+.sol-features { display: flex; flex-direction: column; gap: 9px; }
+.sol-feat {
+  display: flex; gap: 10px; font-size: 12px; color: rgba(240,234,216,0.7); align-items: flex-start;
+}
+.sol-feat::before {
+  content:''; width:5px; height:5px; border-radius:50%;
+  background: var(--lime); flex-shrink:0; margin-top:5px;
+}
 
-  .slide-counter {
-    font-size: 12px; color: var(--gray); letter-spacing: 1px;
-  }
+/* ──────────────────────────────────────
+   CARROSSEL 3 — Como Funciona
+─────────────────────────────────────── */
+.how-slide { justify-content: flex-start; padding-top: 36px; }
 
-  /* ── PRINT HINT ── */
-  .print-hint {
-    text-align: center; font-size: 12px; color: var(--gray);
-    margin-top: 12px;
-  }
-  .print-hint span { color: var(--lime); }
+.how-step-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 96px; font-weight: 500; letter-spacing: -6px;
+  line-height: 0.85; margin-bottom: 4px;
+  background: linear-gradient(180deg, rgba(182,255,26,0.55) 0%, rgba(182,255,26,0.04) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.how-step-num.amber {
+  background: linear-gradient(180deg, rgba(240,168,48,0.55) 0%, rgba(240,168,48,0.04) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.how-step-label {
+  font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 12px; display: block;
+}
+.how-step-label.amber { color: var(--amber); }
+.how-step-title {
+  font-size: clamp(1.35rem, 4.8vw, 1.8rem); font-weight: 700;
+  letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 12px; color: var(--cream);
+}
+.how-step-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 18px; }
 
-  /* ══════════════════════════════════════════
-     CAROUSEL 1 — "3 Problemas"
-  ═══════════════════════════════════════════ */
+.time-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(182,255,26,0.06); border: 1px solid rgba(182,255,26,0.18);
+  border-radius: 8px; padding: 8px 13px;
+  font-size: 11px; color: var(--lime); font-weight: 600; letter-spacing: 0.3px;
+}
+.time-badge svg { width: 13px; height: 13px; stroke: var(--lime); fill: none; stroke-width: 2; }
+.time-badge.amber { background: rgba(240,168,48,0.06); border-color: rgba(240,168,48,0.18); color: var(--amber); }
+.time-badge.amber svg { stroke: var(--amber); }
 
-  /* Slide C1-1: Cover */
-  .c1s1 { background: #0D0D0D; }
-  .c1s1 .orb1 { width: 340px; height: 340px; background: rgba(182,255,26,0.35); top: -80px; left: -80px; }
-  .c1s1 .orb2 { width: 200px; height: 200px; background: rgba(240,168,48,0.12); bottom: 20px; right: -40px; }
-  .c1s1 .tag {
-    display: inline-flex; align-items: center; gap: 6px;
-    border: 1px solid rgba(182,255,26,0.3); border-radius: 20px;
-    padding: 5px 14px; font-size: 11px; color: var(--lime);
-    letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px;
-  }
-  .c1s1 .tag::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--lime); }
-  .c1s1 h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.6rem, 6vw, 2.4rem);
-    line-height: 1.12; font-weight: 600; margin-bottom: 16px;
-  }
-  .c1s1 h2 em { font-style: italic; color: var(--lime); }
-  .c1s1 p { font-size: 14px; color: var(--gray); line-height: 1.6; max-width: 340px; margin-bottom: 28px; }
-  .c1s1 .swipe {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 12px; color: var(--gray); letter-spacing: 1px;
-  }
-  .c1s1 .swipe::after { content: '→'; color: var(--lime); font-size: 16px; }
-  .logo-bar {
-    position: absolute; top: 28px; left: 36px; right: 36px; z-index: 2;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .logo-bar-mark {
-    display: flex; align-items: center; gap: 8px;
-  }
-  .logo-bar-sq {
-    width: 30px; height: 30px; border-radius: 6px;
-    border: 1.5px solid var(--lime);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .logo-bar-sq svg { width: 18px; height: 12px; }
-  .logo-bar-name { font-size: 14px; font-weight: 700; letter-spacing: 2px; color: var(--lime); }
-  .logo-bar-num { font-size: 11px; color: var(--gray); letter-spacing: 1px; }
+.steps-preview { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.step-pill {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: rgba(240,234,216,0.45);
+}
+.step-pill-n {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 1px solid rgba(182,255,26,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 500; color: var(--lime);
+  flex-shrink: 0;
+}
+.step-pill-sep { width: 12px; height: 1px; background: rgba(255,255,255,0.1); }
 
-  /* Slides C1-2,3,4: Problema cards */
-  .problem-slide { justify-content: center; align-items: flex-start; }
-  .problem-slide .orb-p { width: 280px; height: 280px; top: -60px; right: -60px; }
-  .problem-slide .slide-inner { width: 100%; }
+.cta-slide-box {
+  background: rgba(182,255,26,0.06); border: 1px solid rgba(182,255,26,0.18);
+  border-radius: 10px; padding: 16px 18px; margin-top: 16px;
+}
+.cta-slide-box p { font-size: 13px; color: var(--cream); margin-bottom: 12px; line-height: 1.5; }
+.cta-slide-box a {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--lime); color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px; font-weight: 700;
+  padding: 10px 16px; border-radius: 7px;
+  text-decoration: none; transition: opacity 0.2s;
+}
+.cta-slide-box a:hover { opacity: 0.85; }
 
-  .prob-num {
-    font-size: 72px; font-weight: 700; letter-spacing: -4px;
-    line-height: 1; margin-bottom: 4px;
-    background: linear-gradient(180deg, var(--lime) 0%, rgba(182,255,26,0.15) 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .prob-tag {
-    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 16px; display: block;
-  }
-  .prob-title {
-    font-size: clamp(1.4rem, 5vw, 1.9rem); font-weight: 700;
-    line-height: 1.2; margin-bottom: 14px; letter-spacing: -0.5px;
-  }
-  .prob-desc {
-    font-size: 14px; color: var(--gray); line-height: 1.65; max-width: 380px;
-  }
-  .prob-divider {
-    width: 40px; height: 2px; background: var(--lime);
-    border-radius: 2px; margin: 20px 0;
-  }
-  .prob-insight {
-    display: flex; gap: 10px; align-items: flex-start;
-    font-size: 13px; color: rgba(245,240,232,0.6);
-    background: rgba(182,255,26,0.06); border-left: 2px solid var(--lime);
-    border-radius: 0 8px 8px 0; padding: 12px 14px;
-  }
-
-  /* ══════════════════════════════════════════
-     CAROUSEL 2 — "A Solução"
-  ═══════════════════════════════════════════ */
-  .sol-cover { background: #0a0a0a; }
-  .sol-cover .bg-grid {
-    position: absolute; inset: 0; z-index: 0;
-    background-image:
-      linear-gradient(rgba(182,255,26,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(182,255,26,0.04) 1px, transparent 1px);
-    background-size: 48px 48px;
-  }
-  .sol-cover .orb1 { width: 320px; height: 320px; background: rgba(182,255,26,0.22); bottom: -60px; right: -60px; }
-  .sol-cover .headline {
-    font-size: clamp(1.8rem, 7vw, 2.8rem); font-weight: 700;
-    letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 20px;
-  }
-  .sol-cover .headline em { color: var(--lime); font-style: normal; }
-  .sol-cover .sub { font-size: 14px; color: var(--gray); line-height: 1.6; max-width: 340px; margin-bottom: 28px; }
-  .sol-cover .pill-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
-  .pill {
-    padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
-    background: rgba(182,255,26,0.1); border: 1px solid rgba(182,255,26,0.25);
-    color: var(--lime);
-  }
-  .pill.amber { background: rgba(240,168,48,0.1); border-color: rgba(240,168,48,0.25); color: var(--amber); }
-  .pill.white { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: var(--off); }
-
-  .sol-slide { background: #0D0D0D; justify-content: flex-start; padding-top: 36px; }
-  .sol-slide .orb-s { width: 300px; height: 300px; bottom: -80px; left: -80px; }
-
-  .sol-num-badge {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 42px; height: 42px; border-radius: 50%;
-    border: 1.5px solid var(--lime); color: var(--lime);
-    font-size: 16px; font-weight: 700; margin-bottom: 20px;
-  }
-  .sol-title {
-    font-size: clamp(1.5rem, 5.5vw, 2rem); font-weight: 700;
-    letter-spacing: -0.5px; line-height: 1.15; margin-bottom: 12px;
-  }
-  .sol-title em { color: var(--lime); font-style: normal; }
-  .sol-desc { font-size: 14px; color: var(--gray); line-height: 1.65; margin-bottom: 20px; }
-  .sol-time {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 11px; color: var(--lime); letter-spacing: 1px; margin-bottom: 22px;
-  }
-  .sol-time::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--lime); }
-  .sol-features { display: flex; flex-direction: column; gap: 10px; }
-  .sol-feat {
-    display: flex; gap: 10px; font-size: 13px; color: rgba(245,240,232,0.75);
-    align-items: flex-start;
-  }
-  .sol-feat::before {
-    content:''; width:6px; height:6px; border-radius:50%;
-    background: var(--lime); flex-shrink:0; margin-top:5px;
-    box-shadow: 0 0 0 3px rgba(182,255,26,0.15);
-  }
-
-  /* ══════════════════════════════════════════
-     CAROUSEL 3 — "Como Funciona"
-  ═══════════════════════════════════════════ */
-  .how-cover { background: #080808; }
-  .how-cover .big-num {
-    font-size: 180px; font-weight: 700; letter-spacing: -10px;
-    line-height: 0.8; position: absolute; right: -10px; top: 20px; z-index: 0;
-    background: linear-gradient(180deg, rgba(182,255,26,0.07) 0%, transparent 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text; pointer-events: none;
-    font-family: 'Space Grotesk', sans-serif;
-  }
-  .how-cover .orb1 { width: 280px; height: 280px; background: rgba(182,255,26,0.2); top: -40px; left: -60px; }
-  .how-cover .cover-tag {
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 16px; position: relative; z-index: 2;
-  }
-  .how-cover .cover-h {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 6.5vw, 2.6rem); font-weight: 600;
-    line-height: 1.12; margin-bottom: 16px; position: relative; z-index: 2;
-  }
-  .how-cover .cover-h em { font-style: italic; color: var(--lime); }
-  .how-cover .cover-p {
-    font-size: 14px; color: var(--gray); line-height: 1.6;
-    max-width: 340px; margin-bottom: 28px; position: relative; z-index: 2;
-  }
-  .steps-mini { display: flex; gap: 10px; position: relative; z-index: 2; flex-wrap: wrap; }
-  .step-mini {
-    display: flex; align-items: center; gap: 7px;
-    font-size: 12px; color: rgba(245,240,232,0.55);
-  }
-  .step-mini-n {
-    width: 22px; height: 22px; border-radius: 50%;
-    border: 1px solid rgba(182,255,26,0.35);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 700; color: var(--lime); flex-shrink: 0;
-  }
-
-  .how-slide { background: #0D0D0D; justify-content: flex-start; padding-top: 36px; }
-  .how-slide .orb-h { width: 260px; height: 260px; bottom: -60px; right: -60px; }
-
-  .how-step-num {
-    font-size: 90px; font-weight: 700; letter-spacing: -5px;
-    line-height: 0.85; margin-bottom: 6px;
-    background: linear-gradient(180deg, rgba(182,255,26,0.5) 0%, rgba(182,255,26,0.05) 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .how-step-label {
-    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
-    color: var(--lime); margin-bottom: 14px; display: block;
-  }
-  .how-step-title {
-    font-size: clamp(1.4rem, 5vw, 1.85rem); font-weight: 700;
-    letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 14px;
-  }
-  .how-step-desc { font-size: 14px; color: var(--gray); line-height: 1.65; margin-bottom: 20px; }
-
-  .time-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(182,255,26,0.08); border: 1px solid rgba(182,255,26,0.2);
-    border-radius: 8px; padding: 8px 14px;
-    font-size: 12px; color: var(--lime); font-weight: 600;
-  }
-  .time-badge svg { width: 14px; height: 14px; stroke: var(--lime); fill: none; stroke-width: 2; }
-
-  .cta-box-slide {
-    background: rgba(182,255,26,0.08); border: 1px solid rgba(182,255,26,0.2);
-    border-radius: 12px; padding: 18px 20px; margin-top: 20px;
-  }
-  .cta-box-slide p { font-size: 13px; color: var(--off); margin-bottom: 12px; }
-  .cta-box-slide a {
-    display: inline-flex; align-items: center; gap: 7px;
-    background: var(--lime); color: #0D0D0D;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px; font-weight: 700;
-    padding: 10px 18px; border-radius: 8px;
-    text-decoration: none; transition: opacity 0.2s;
-  }
-  .cta-box-slide a:hover { opacity: 0.85; }
-
-  /* ── PRINT / EXPORT ── */
-  @media print {
-    body { background: #0D0D0D; padding: 0; }
-    .carousel-block { max-width: 100%; margin: 0; }
-    .slide-nav, .carousel-label, .carousel-title, h1.page-title, p.page-sub, .print-hint { display: none; }
-    .slide-viewer { border-radius: 0; box-shadow: none; }
-  }
+/* PRINT */
+@media print {
+  body { background: var(--ink); padding: 0; }
+  .carousel-block { max-width: 100%; margin: 0; }
+  .slide-nav, .carousel-label, .carousel-title, .page-header, .print-hint { display: none; }
+  .slide-viewer { border-radius: 0; box-shadow: none; }
+}
 </style>
 </head>
 <body>
 
-<h1 class="page-title">Fluxo — Carrosseis Instagram</h1>
-<p class="page-sub">3 carrosseis · 4 slides cada · 1080×1080px · Use Ctrl+P → Salvar PDF para exportar</p>
+<div class="page-header">
+  <div class="page-eyebrow">Fluxo — Carrosseis Instagram</div>
+  <p class="page-sub">3 carrosseis · 4 slides cada · 1080×1080 · Ctrl+P → Salvar PDF para exportar</p>
+</div>
+
 
 <!-- ══════════════════════════════════════════════════════════
      CARROSSEL 1 — Os 3 Problemas
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════════════════════ -->
 <div class="carousel-block">
   <div class="carousel-label">Carrossel 01 de 03</div>
   <div class="carousel-title">Os 3 problemas que estão custando dinheiro ao seu comércio</div>
@@ -391,30 +326,33 @@
   <div class="slide-viewer">
     <div class="slides" id="c1-slides">
 
-      <!-- Slide 1: Cover -->
-      <div class="slide c1s1">
-        <div class="orb orb1" style="background:rgba(182,255,26,0.3);width:360px;height:360px;top:-100px;left:-100px;"></div>
-        <div class="orb orb2" style="background:rgba(240,168,48,0.1);width:220px;height:220px;bottom:0px;right:-60px;"></div>
+      <!-- C1 / Slide 1: Cover -->
+      <div class="slide slide-cover">
+        <!-- Onda da marca como fundo — específico da Fluxo -->
+        <svg class="slide-wave" width="100%" height="100%" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid slice" style="top:0;left:0;">
+          <path d="M-40 280 C60 80, 200 80, 280 280 C360 480, 500 480, 600 280" stroke="#B6FF1A" stroke-width="1.5" fill="none" opacity="0.07"/>
+          <path d="M-40 380 C80 160, 220 160, 320 380 C420 580, 520 540, 640 340" stroke="#B6FF1A" stroke-width="0.8" fill="none" opacity="0.04"/>
+        </svg>
         <div class="logo-bar">
           <div class="logo-bar-mark">
-            <div class="logo-bar-sq">
-              <svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg>
-            </div>
+            <div class="logo-bar-sq"><svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg></div>
             <span class="logo-bar-name">fluxo</span>
           </div>
           <span class="logo-bar-num">01 / 04</span>
         </div>
         <div class="slide-inner">
-          <div class="tag">Para donos de comércio</div>
-          <h2>Por que seu<br>comércio está<br>perdendo <em>dinheiro?</em></h2>
-          <p>Você trabalha o dia todo mas sente que algo escapa. A gente vai te mostrar os 3 vilões.</p>
-          <div class="swipe">Arraste para ver </div>
+          <div class="cover-tag">Para donos de comércio</div>
+          <h2 class="cover-h">Por que seu comércio está perdendo <strong>dinheiro?</strong></h2>
+          <p class="cover-p">Você trabalha o dia todo mas sente que algo escapa. Vamos mostrar os 3 vilões.</p>
+          <div class="swipe-hint">Arraste para ver </div>
         </div>
       </div>
 
-      <!-- Slide 2: Problema 1 -->
-      <div class="slide problem-slide" style="background:#0D0D0D;">
-        <div class="orb orb-p" style="background:rgba(182,255,26,0.18);width:300px;height:300px;top:-60px;right:-60px;"></div>
+      <!-- C1 / Slide 2: Problema 1 -->
+      <div class="slide prob-slide">
+        <svg class="slide-wave" width="100%" height="55%" viewBox="0 0 560 200" preserveAspectRatio="xMidYMid slice" style="top:0;right:0;opacity:0.06;">
+          <path d="M0 160 C120 20, 300 20, 560 100" stroke="#B6FF1A" stroke-width="1.5" fill="none"/>
+        </svg>
         <div class="logo-bar">
           <div class="logo-bar-mark">
             <div class="logo-bar-sq"><svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg></div>
@@ -427,14 +365,16 @@
           <span class="prob-tag">Instagram parado</span>
           <h3 class="prob-title">Seu cliente te esquece<br>e compra do concorrente</h3>
           <div class="prob-divider"></div>
-          <p class="prob-desc">Sem presença constante nas redes, você some da cabeça de quem poderia comprar de você. Quem posta, vende.</p>
-          <div class="prob-insight">Comércios que postam 3×/semana faturam até 40% mais no online.</div>
+          <p class="prob-desc">Sem presença constante, você some da cabeça de quem poderia comprar de você. Quem posta, vende.</p>
+          <div class="prob-insight">Comércios que postam 3×/semana faturam até 40% mais no local.</div>
         </div>
       </div>
 
-      <!-- Slide 3: Problema 2 -->
-      <div class="slide problem-slide" style="background:#0a0a0a;">
-        <div class="orb orb-p" style="background:rgba(240,168,48,0.15);width:280px;height:280px;top:-50px;right:-50px;"></div>
+      <!-- C1 / Slide 3: Problema 2 -->
+      <div class="slide prob-slide">
+        <svg class="slide-wave" width="100%" height="55%" viewBox="0 0 560 200" preserveAspectRatio="xMidYMid slice" style="top:0;right:0;opacity:0.06;">
+          <path d="M560 160 C440 20, 260 20, 0 100" stroke="#F0A830" stroke-width="1.5" fill="none"/>
+        </svg>
         <div class="logo-bar">
           <div class="logo-bar-mark">
             <div class="logo-bar-sq"><svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg></div>
@@ -443,18 +383,20 @@
           <span class="logo-bar-num">03 / 04</span>
         </div>
         <div class="slide-inner">
-          <div class="prob-num" style="background:linear-gradient(180deg,var(--amber) 0%,rgba(240,168,48,0.1) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">02</div>
-          <span class="prob-tag" style="color:var(--amber);">Caixa descontrolado</span>
+          <div class="prob-num amber">02</div>
+          <span class="prob-tag amber">Caixa descontrolado</span>
           <h3 class="prob-title">Você não sabe quanto<br>entrou, saiu e sobrou</h3>
-          <div class="prob-divider" style="background:var(--amber);"></div>
+          <div class="prob-divider amber"></div>
           <p class="prob-desc">Sem controle financeiro, você trabalha no escuro. Dinheiro some e você não sabe pra onde foi.</p>
-          <div class="prob-insight" style="border-left-color:var(--amber);background:rgba(240,168,48,0.06);">7 em cada 10 pequenos comércios fecham por falta de controle do caixa.</div>
+          <div class="prob-insight amber">7 em cada 10 comércios fecham por falta de controle do caixa.</div>
         </div>
       </div>
 
-      <!-- Slide 4: Problema 3 -->
-      <div class="slide problem-slide" style="background:#0D0D0D;">
-        <div class="orb orb-p" style="background:rgba(182,255,26,0.12);width:320px;height:320px;bottom:-80px;left:-80px;"></div>
+      <!-- C1 / Slide 4: Problema 3 -->
+      <div class="slide prob-slide">
+        <svg class="slide-wave" width="100%" height="55%" viewBox="0 0 560 200" preserveAspectRatio="xMidYMid slice" style="bottom:0;left:0;opacity:0.06;">
+          <path d="M0 60 C140 200, 320 200, 560 80" stroke="#B6FF1A" stroke-width="1.5" fill="none"/>
+        </svg>
         <div class="logo-bar">
           <div class="logo-bar-mark">
             <div class="logo-bar-sq"><svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg></div>
@@ -465,16 +407,15 @@
         <div class="slide-inner">
           <div class="prob-num">03</div>
           <span class="prob-tag">Estoque no escuro</span>
-          <h3 class="prob-title">Você vende o que<br>não tem — ou compra<br>o que já tem</h3>
+          <h3 class="prob-title">Você vende o que não tem<br>ou compra o que já tem</h3>
           <div class="prob-divider"></div>
-          <p class="prob-desc">Estoque bagunçado gera perda dupla: cliente insatisfeito e dinheiro parado em produto errado.</p>
-          <div class="prob-insight">A Fluxo resolve os 3 ao mesmo tempo. Salva esse post e fala com a gente. 👇</div>
+          <p class="prob-desc">Estoque bagunçado gera perda dupla: cliente insatisfeito e dinheiro parado no produto errado.</p>
+          <div class="prob-insight">A Fluxo resolve os 3 ao mesmo tempo. Salva e fala com a gente. 👇</div>
         </div>
       </div>
 
     </div>
   </div>
-
   <div class="slide-nav">
     <div class="slide-dots" id="c1-dots">
       <div class="dot active" onclick="goTo('c1',0)"></div>
@@ -494,7 +435,7 @@
 
 <!-- ══════════════════════════════════════════════════════════
      CARROSSEL 2 — A Solução
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════════════════════ -->
 <div class="carousel-block">
   <div class="carousel-label">Carrossel 02 de 03</div>
   <div class="carousel-title">Como a Fluxo resolve tudo isso por você</div>
@@ -502,10 +443,13 @@
   <div class="slide-viewer">
     <div class="slides" id="c2-slides">
 
-      <!-- Slide 1: Cover solução -->
-      <div class="slide sol-cover">
-        <div class="bg-grid"></div>
-        <div class="orb orb1" style="background:rgba(182,255,26,0.2);width:320px;height:320px;bottom:-60px;right:-60px;"></div>
+      <!-- C2 / Slide 1: Cover -->
+      <div class="slide slide-cover">
+        <div class="sol-cover-bg"></div>
+        <svg class="slide-wave" width="50%" height="50%" viewBox="0 0 280 280" style="bottom:0;right:0;opacity:0.1;">
+          <path d="M0 200 C60 60, 180 60, 280 140" stroke="#B6FF1A" stroke-width="1.5" fill="none"/>
+          <path d="M0 260 C80 100, 200 100, 280 180" stroke="#B6FF1A" stroke-width="0.8" fill="none"/>
+        </svg>
         <div class="logo-bar">
           <div class="logo-bar-mark">
             <div class="logo-bar-sq"><svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg></div>
@@ -514,22 +458,24 @@
           <span class="logo-bar-num">01 / 04</span>
         </div>
         <div class="slide-inner">
-          <div class="tag" style="border-color:rgba(182,255,26,0.3);color:var(--lime);display:inline-flex;align-items:center;gap:6px;border:1px solid;border-radius:20px;padding:5px 14px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px;">A solução</div>
-          <h2 class="headline">Um pacote.<br><em>Tudo</em> resolvido.</h2>
-          <p class="sub">Instagram, financeiro e estoque — com IA e suporte direto no WhatsApp.</p>
+          <div class="cover-tag">A solução</div>
+          <h2 class="cover-h">Um pacote.<br><strong>Tudo</strong> resolvido.</h2>
+          <p class="cover-p">Instagram, financeiro e estoque — com IA e suporte direto no WhatsApp.</p>
           <div class="pill-row">
             <span class="pill">Instagram</span>
             <span class="pill amber">Financeiro</span>
             <span class="pill white">Estoque</span>
             <span class="pill">IA inclusa</span>
           </div>
-          <div class="swipe" style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gray);letter-spacing:1px;">Arraste para ver como funciona <span style="color:var(--lime);font-size:16px;">→</span></div>
+          <div class="swipe-hint">Arraste para ver como funciona </div>
         </div>
       </div>
 
-      <!-- Slide 2: Instagram -->
+      <!-- C2 / Slide 2: Instagram -->
       <div class="slide sol-slide">
-        <div class="orb orb-s" style="background:rgba(182,255,26,0.14);width:300px;height:300px;bottom:-80px;left:-80px;"></div>
+        <svg class="slide-wave" width="100%" height="45%" viewBox="0 0 560 160" preserveAspectRatio="xMidYMid slice" style="bottom:0;left:0;opacity:0.07;">
+          <path d="M-40 120 C100 -20, 300 -20, 600 80" stroke="#B6FF1A" stroke-width="1.5" fill="none"/>
+        </svg>
         <div class="logo-bar">
           <div class="logo-bar-mark">
             <div class="logo-bar-sq"><svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg></div>
@@ -539,7 +485,7 @@
         </div>
         <div class="slide-inner">
           <div class="sol-num-badge">01</div>
-          <h3 class="sol-title"><em>Marketing</em><br>profissional no<br>Instagram</h3>
+          <h3 class="sol-title"><em>Marketing</em> profissional<br>no Instagram</h3>
           <p class="sol-desc">A gente cria e posta por você. Carrosseis com design bonito, legendas que vendem e hashtags certas — toda semana.</p>
           <div class="sol-time">Ativo em 3 dias</div>
           <div class="sol-features">
@@ -550,9 +496,11 @@
         </div>
       </div>
 
-      <!-- Slide 3: Financeiro -->
-      <div class="slide sol-slide" style="background:#0a0a0a;">
-        <div class="orb orb-s" style="background:rgba(240,168,48,0.12);width:280px;height:280px;bottom:-70px;right:-70px;"></div>
+      <!-- C2 / Slide 3: Financeiro -->
+      <div class="slide sol-slide">
+        <svg class="slide-wave" width="100%" height="45%" viewBox="0 0 560 160" preserveAspectRatio="xMidYMid slice" style="bottom:0;right:0;opacity:0.07;">
+          <path d="M600 120 C460 -20, 260 -20, -40 80" stroke="#F0A830" stroke-width="1.5" fill="none"/>
+        </svg>
         <div class="logo-bar">
           <div class="logo-bar-mark">
             <div class="logo-bar-sq"><svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg></div>
@@ -561,10 +509,10 @@
           <span class="logo-bar-num">03 / 04</span>
         </div>
         <div class="slide-inner">
-          <div class="sol-num-badge" style="border-color:var(--amber);color:var(--amber);">02</div>
-          <h3 class="sol-title">Controle de <em style="color:var(--amber)">caixa</em><br>em tempo real</h3>
+          <div class="sol-num-badge amber">02</div>
+          <h3 class="sol-title">Controle de <em class="amber">caixa</em><br>em tempo real</h3>
           <p class="sol-desc">Saiba exatamente o que entrou, o que saiu e o que sobrou — todo dia, sem planilha bagunçada.</p>
-          <div class="sol-time" style="color:var(--amber);">Ativo em 1 dia</div>
+          <div class="sol-time amber">Ativo em 1 dia</div>
           <div class="sol-features">
             <div class="sol-feat">Dashboard financeiro com IA</div>
             <div class="sol-feat">Alertas de gastos fora do padrão</div>
@@ -573,9 +521,11 @@
         </div>
       </div>
 
-      <!-- Slide 4: Estoque -->
+      <!-- C2 / Slide 4: Estoque -->
       <div class="slide sol-slide">
-        <div class="orb orb-s" style="background:rgba(182,255,26,0.1);width:320px;height:320px;top:-80px;right:-80px;"></div>
+        <svg class="slide-wave" width="100%" height="45%" viewBox="0 0 560 160" preserveAspectRatio="xMidYMid slice" style="top:0;right:0;opacity:0.07;">
+          <path d="M-40 60 C140 200, 340 200, 600 80" stroke="#B6FF1A" stroke-width="1.5" fill="none"/>
+        </svg>
         <div class="logo-bar">
           <div class="logo-bar-mark">
             <div class="logo-bar-sq"><svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg></div>
@@ -585,8 +535,8 @@
         </div>
         <div class="slide-inner">
           <div class="sol-num-badge">03</div>
-          <h3 class="sol-title">Controle de<br><em>estoque</em> sem<br>complicação</h3>
-          <p class="sol-desc">Nunca mais vender o que não tem. Saiba exatamente o que está em estoque e o que precisa repor.</p>
+          <h3 class="sol-title">Controle de <em>estoque</em><br>sem complicação</h3>
+          <p class="sol-desc">Nunca mais vender o que não tem. Saiba o que está em estoque e o que precisa repor.</p>
           <div class="sol-time">Ativo em 2 dias</div>
           <div class="sol-features">
             <div class="sol-feat">Inventário simples e visual</div>
@@ -598,7 +548,6 @@
 
     </div>
   </div>
-
   <div class="slide-nav">
     <div class="slide-dots" id="c2-dots">
       <div class="dot active" onclick="goTo('c2',0)"></div>
@@ -618,7 +567,7 @@
 
 <!-- ══════════════════════════════════════════════════════════
      CARROSSEL 3 — Como Funciona (3 passos)
-═══════════════════════════════════════════════════════════ -->
+══════════════════════════════════════════════════════════ -->
 <div class="carousel-block">
   <div class="carousel-label">Carrossel 03 de 03</div>
   <div class="carousel-title">Do zero ao organizado em 3 passos simples</div>
@@ -626,10 +575,13 @@
   <div class="slide-viewer">
     <div class="slides" id="c3-slides">
 
-      <!-- Slide 1: Cover -->
-      <div class="slide how-cover">
-        <div class="orb orb1" style="background:rgba(182,255,26,0.2);width:300px;height:300px;top:-60px;left:-60px;"></div>
-        <div class="big-num">3</div>
+      <!-- C3 / Slide 1: Cover -->
+      <div class="slide slide-cover">
+        <svg class="slide-wave" width="100%" height="100%" viewBox="0 0 560 560" preserveAspectRatio="xMidYMid slice" style="top:0;left:0;opacity:1;">
+          <path d="M-40 200 C100 -20, 300 -20, 600 160" stroke="#B6FF1A" stroke-width="1.2" fill="none" opacity="0.06"/>
+          <path d="M-40 340 C120 120, 340 120, 600 300" stroke="#B6FF1A" stroke-width="0.7" fill="none" opacity="0.04"/>
+          <path d="M-40 460 C140 240, 360 240, 600 400" stroke="#B6FF1A" stroke-width="0.5" fill="none" opacity="0.025"/>
+        </svg>
         <div class="logo-bar">
           <div class="logo-bar-mark">
             <div class="logo-bar-sq"><svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg></div>
@@ -639,21 +591,23 @@
         </div>
         <div class="slide-inner">
           <div class="cover-tag">Como funciona</div>
-          <h2 class="cover-h">Do caos ao<br>controle em<br><em>3 passos.</em></h2>
+          <h2 class="cover-h">Do caos ao controle em <strong>3 passos.</strong></h2>
           <p class="cover-p">Sem complicação, sem tecnologia difícil. Em menos de 1 semana seu comércio está no trilho.</p>
-          <div class="steps-mini">
-            <div class="step-mini"><div class="step-mini-n">1</div>Conversa</div>
-            <div class="step-mini" style="color:rgba(255,255,255,0.3);">·</div>
-            <div class="step-mini"><div class="step-mini-n">2</div>Configura</div>
-            <div class="step-mini" style="color:rgba(255,255,255,0.3);">·</div>
-            <div class="step-mini"><div class="step-mini-n">3</div>Resultado</div>
+          <div class="steps-preview">
+            <div class="step-pill"><div class="step-pill-n">1</div>Conversa</div>
+            <div class="step-pill-sep"></div>
+            <div class="step-pill"><div class="step-pill-n">2</div>Configura</div>
+            <div class="step-pill-sep"></div>
+            <div class="step-pill"><div class="step-pill-n">3</div>Resultado</div>
           </div>
         </div>
       </div>
 
-      <!-- Slide 2: Passo 1 -->
+      <!-- C3 / Slide 2: Passo 1 -->
       <div class="slide how-slide">
-        <div class="orb orb-h" style="background:rgba(182,255,26,0.14);width:280px;height:280px;bottom:-60px;right:-60px;"></div>
+        <svg class="slide-wave" width="100%" height="45%" viewBox="0 0 560 160" preserveAspectRatio="xMidYMid slice" style="bottom:0;right:0;opacity:0.07;">
+          <path d="M600 60 C440 200, 240 200, -40 80" stroke="#B6FF1A" stroke-width="1.5" fill="none"/>
+        </svg>
         <div class="logo-bar">
           <div class="logo-bar-mark">
             <div class="logo-bar-sq"><svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg></div>
@@ -664,7 +618,7 @@
         <div class="slide-inner">
           <div class="how-step-num">01</div>
           <span class="how-step-label">Primeiro passo</span>
-          <h3 class="how-step-title">Você fala com<br>a gente pelo<br>WhatsApp</h3>
+          <h3 class="how-step-title">Você fala com<br>a gente pelo WhatsApp</h3>
           <p class="how-step-desc">Conta como é seu comércio. Em menos de 15 minutos a gente entende o que você precisa e recomenda o pacote certo.</p>
           <div class="time-badge">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
@@ -673,9 +627,11 @@
         </div>
       </div>
 
-      <!-- Slide 3: Passo 2 -->
-      <div class="slide how-slide" style="background:#0a0a0a;">
-        <div class="orb orb-h" style="background:rgba(240,168,48,0.1);width:300px;height:300px;top:-60px;left:-60px;"></div>
+      <!-- C3 / Slide 3: Passo 2 -->
+      <div class="slide how-slide">
+        <svg class="slide-wave" width="100%" height="45%" viewBox="0 0 560 160" preserveAspectRatio="xMidYMid slice" style="bottom:0;left:0;opacity:0.07;">
+          <path d="M-40 60 C120 200, 320 200, 600 80" stroke="#F0A830" stroke-width="1.5" fill="none"/>
+        </svg>
         <div class="logo-bar">
           <div class="logo-bar-mark">
             <div class="logo-bar-sq"><svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg></div>
@@ -684,20 +640,22 @@
           <span class="logo-bar-num">03 / 04</span>
         </div>
         <div class="slide-inner">
-          <div class="how-step-num" style="background:linear-gradient(180deg,var(--amber) 0%,rgba(240,168,48,0.05) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">02</div>
-          <span class="how-step-label" style="color:var(--amber);">Segundo passo</span>
-          <h3 class="how-step-title">A gente configura<br>tudo no seu<br>negócio</h3>
-          <p class="how-step-desc">Em poucos dias, seu Instagram está com visual profissional, seu financeiro organizado e o estoque em dia. Você não precisa fazer nada.</p>
-          <div class="time-badge" style="background:rgba(240,168,48,0.08);border-color:rgba(240,168,48,0.2);color:var(--amber);">
-            <svg viewBox="0 0 24 24" style="stroke:var(--amber)"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <div class="how-step-num amber">02</div>
+          <span class="how-step-label amber">Segundo passo</span>
+          <h3 class="how-step-title">A gente configura<br>tudo no seu negócio</h3>
+          <p class="how-step-desc">Em poucos dias, seu Instagram está com visual profissional, seu financeiro organizado e o estoque em dia. Você não faz nada.</p>
+          <div class="time-badge amber">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
             Tudo pronto em até 5 dias úteis
           </div>
         </div>
       </div>
 
-      <!-- Slide 4: Passo 3 / CTA -->
+      <!-- C3 / Slide 4: Passo 3 / CTA -->
       <div class="slide how-slide">
-        <div class="orb orb-h" style="background:rgba(182,255,26,0.16);width:320px;height:320px;bottom:-80px;right:-80px;"></div>
+        <svg class="slide-wave" width="100%" height="45%" viewBox="0 0 560 160" preserveAspectRatio="xMidYMid slice" style="top:0;right:0;opacity:0.07;">
+          <path d="M600 120 C440 -20, 220 -20, -40 60" stroke="#B6FF1A" stroke-width="1.5" fill="none"/>
+        </svg>
         <div class="logo-bar">
           <div class="logo-bar-mark">
             <div class="logo-bar-sq"><svg viewBox="0 0 26 16" fill="none"><path d="M1 8 C4 2,9 2,13 8 C17 14,22 14,25 8" stroke="#B6FF1A" stroke-width="2" stroke-linecap="round"/></svg></div>
@@ -709,8 +667,8 @@
           <div class="how-step-num">03</div>
           <span class="how-step-label">Terceiro passo</span>
           <h3 class="how-step-title">Você começa<br>a ver resultado</h3>
-          <p class="how-step-desc">Mais seguidores, mais clientes, mais clareza sobre o dinheiro. A Fluxo cuida da gestão — você cuida do seu negócio.</p>
-          <div class="cta-box-slide">
+          <p class="how-step-desc">Mais clientes, mais clareza sobre o dinheiro. A Fluxo cuida da gestão — você cuida do bairro.</p>
+          <div class="cta-slide-box">
             <p>Pronto pra começar? Fala com a gente agora.</p>
             <a href="https://wa.me/5511945918400?text=Oi%2C%20quero%20conhecer%20os%20pacotes%20da%20Fluxo!" target="_blank">
               Falar no WhatsApp →
@@ -721,7 +679,6 @@
 
     </div>
   </div>
-
   <div class="slide-nav">
     <div class="slide-dots" id="c3-dots">
       <div class="dot active" onclick="goTo('c3',0)"></div>
@@ -750,15 +707,9 @@
     document.getElementById(id + '-hint').textContent = idx + 1;
   }
 
-  function next(id) {
-    goTo(id, Math.min(state[id] + 1, 3));
-  }
+  function next(id) { goTo(id, Math.min(state[id] + 1, 3)); }
+  function prev(id) { goTo(id, Math.max(state[id] - 1, 0)); }
 
-  function prev(id) {
-    goTo(id, Math.max(state[id] - 1, 0));
-  }
-
-  // Keyboard navigation
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') ['c1','c2','c3'].forEach(next);
     if (e.key === 'ArrowLeft')  ['c1','c2','c3'].forEach(prev);
